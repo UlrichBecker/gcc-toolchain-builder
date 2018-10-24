@@ -3,15 +3,22 @@
 # Script to build lm32 GCC toolchain
 #
 
+START_TIME=$(date +%s)
+VERSION_CONFIG_FILE="./gcc_versions.conf"
 VERBOSE=true
 
-NEW_LIB_VERSION="1.19.0"
-GCC_VERSION="7.3.0"
-GDB_VERSION="7.2a"
-BINUTILS_VERSION="2.21.1"
-MPC_VERSION="1.1.0"
-MPFR_VERSION="3.1.0"
-GMP_VERSION="5.0.2"
+#
+#NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
+#GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+#GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
+#BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
+#MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
+#MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
+#GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
+
+
+
+source $VERSION_CONFIG_FILE
 
 NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
@@ -21,16 +28,47 @@ MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
 MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
 GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
 
-URL_LIST=""
+#------------------------------------------------------------------------------
+seconds2timeFormat()
+{
+   local time=$1
+   local seconds=$(($time % 60))
+   time=$(( $(($time - $seconds)) / 60 ))
+   local minutes=$(($time % 60))
+   time=$(( $(($time - $minutes)) / 60 ))
+   local hours=$(($time % 60))
 
-URL_LIST="$URL_LIST $NEW_LIB_URL"
-URL_LIST="$URL_LIST $GCC_URL"
-URL_LIST="$URL_LIST $GDB_URL"
-URL_LIST="$URL_LIST $BIN_UTILS_URL"
-URL_LIST="$URL_LIST $MPC_URL"
-URL_LIST="$URL_LIST $MPFR_URL"
-URL_LIST="$URL_LIST $GMP_URL"
+   printf "%01d:%02d:%02d" ${hours} ${minutes} ${seconds}
+}
 
+#------------------------------------------------------------------------------
+end()
+{
+   echo "Elapsed time: $(seconds2timeFormat $(($(date +%s) - $START_TIME)))"
+   exit $1
+}
+
+#------------------------------------------------------------------------------
+init_url_list()
+{
+   URL_LIST=""
+
+   if [ ! -n "${GCC_VERSION}" ]
+   then
+      echo "ERROR: Variable \"GCC_VERSION\" is not set in $VERSION_CONFIG_FILE"
+      end 1
+   fi
+   URL_LIST="$URL_LIST $GCC_URL"
+
+   [ -n "${NEW_LIB_VERSION}" ]  && URL_LIST="$URL_LIST $NEW_LIB_URL"
+   [ -n "${GDB_VERSION}" ]      && URL_LIST="$URL_LIST $GDB_URL"
+   [ -n "${BINUTILS_VERSION}" ] && URL_LIST="$URL_LIST $BIN_UTILS_URL"
+   [ -n "${MPC_VERSION}" ]      && URL_LIST="$URL_LIST $MPC_URL"
+   [ -n "${MPFR_VERSION}" ]     && URL_LIST="$URL_LIST $MPFR_URL"
+   [ -n "${GMP_VERSION}" ]      && URL_LIST="$URL_LIST $GMP_URL"
+}
+
+#------------------------------------------------------------------------------
 download_if_not_already_done()
 {
    for i in $URL_LIST
@@ -44,12 +82,13 @@ download_if_not_already_done()
          if [ "$?" != "0" ]
          then
             echo "ERROR: Unable to download \"$i\"" 1>&2
-            exit 1
+            end 1
          fi
       fi
    done
 }
 
+#------------------------------------------------------------------------------
 extract_if_not_already_done()
 {
    local tarOption
@@ -60,7 +99,7 @@ extract_if_not_already_done()
       if [ ! -f "$path_file" ]
       then
          echo "ERROR: File \"$path_file\" not found!" 1>&2
-         exit 1
+         end 1
       fi
       local dirName=${tar_file%.tar.*}
       dirName=${dirName%[a-z]}
@@ -78,7 +117,7 @@ extract_if_not_already_done()
          tarOption="-xzvf"
       else
          echo "ERROR: Compressed fileformat of \"${tar_file}\" not supported!" 1>&2
-         exit 1
+         end 1
       fi
  
       [ $VERBOSE ] && echo "INFO: Trying to extract \"$path_file\""
@@ -86,31 +125,32 @@ extract_if_not_already_done()
       if [ "$?" != "0" ]
       then
          echo "ERROR: By extracting file:  \"$path_file\""
-         exit $?
+         end $?
       fi
    done
 }
 
+#------------------------------------------------------------------------------
 linkList()
 {
    if [ ! -d "${SOURCE_DIR}/gcc-${GCC_VERSION}" ]
    then
       echo "ERROR: Directory \"${1}\" not found!"
-      exit 1
+      end 1
    fi
    if [ ! -d "$1" ]
    then
       echo "ERROR: Directory \"${1}\" not found!"
-      exit 1
+      end 1
    fi
    for i in $2
    do
       local lnkDir="${SOURCE_DIR}/gcc-${GCC_VERSION}/${i}"
-      if [ -d "${1}/${i}" ]
+      if [ -d "${1}/${i}" ] && ! [ -n "${3}" ]
       then
          local srcDir="${1}/${i}"
       else
-         local srcDir="${1}"
+         local srcDir="${1}/${3}"
       fi
       rm $lnkDir 2>/dev/null
       [ $VERBOSE ] && echo "INFO: make symbolck link: $srcDir -> $lnkDir"
@@ -118,12 +158,12 @@ linkList()
       if [ "$?" != "0" ]
       then
          echo "ERROR: Can't make symbolic link: $srcDir -> $lnkDir" 1>&2
-         exit 1
+         end 1
       fi
    done
 }
 
-
+#------------------------------------------------------------------------------
 prepare_gcc_build()
 {
    local binUtilLinkList="bfd binutils gas gold gprof opcodes ld"
@@ -132,16 +172,22 @@ prepare_gcc_build()
    local mpcLinkList="mpc"
    local mpfrLinkList="mpfr"
    local gmpLinkList="gmp"
-   linkList ${SOURCE_DIR}/binutils-${BINUTILS_VERSION} "$binUtilLinkList"
-   linkList ${SOURCE_DIR}/gdb-${GDB_VERSION%[a-z]} "$gdbLinkList"
-   linkList ${SOURCE_DIR}/gmp-${GMP_VERSION} "$gmpLinkList"
-   linkList ${SOURCE_DIR}/mpc-${MPC_VERSION} "$mpcLinkList"
-   linkList ${SOURCE_DIR}/mpfr-${MPFR_VERSION} "$mpfrLinkList"
-   linkList ${SOURCE_DIR}/newlib-${NEW_LIB_VERSION} "$newLibLinkList"
+   [ -n "${BINUTILS_VERSION}" ] && linkList ${SOURCE_DIR}/binutils-${BINUTILS_VERSION} "$binUtilLinkList"
+   [ -n "${GDB_VERSION}" ]      && linkList ${SOURCE_DIR}/gdb-${GDB_VERSION%[a-z]} "$gdbLinkList" "."
+   [ -n "${GMP_VERSION}" ]      && linkList ${SOURCE_DIR}/gmp-${GMP_VERSION} "$gmpLinkList"
+   [ -n "${MPC_VERSION}" ]      && linkList ${SOURCE_DIR}/mpc-${MPC_VERSION} "$mpcLinkList"
+   [ -n "${MPFR_VERSION}" ]     && linkList ${SOURCE_DIR}/mpfr-${MPFR_VERSION} "$mpfrLinkList"
+   [ -n "${NEW_LIB_VERSION}" ]  && linkList ${SOURCE_DIR}/newlib-${NEW_LIB_VERSION} "$newLibLinkList"
 }
 
 
+#================================= main =======================================
 WORK_DIR=$(pwd)
+
+init_url_list
+#echo "$URL_LIST"
+#end 0
+
 DOWNLOAD_DIR="${WORK_DIR}/download"
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
@@ -161,7 +207,24 @@ BUILD_DIR="${WORK_DIR}/build"
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=/usr/mico32 --enable-languages=c --target=lm32-elf --disable-libssp --disable-libgcc
-make -j
+PREFIX="$HOME/.local"
+
+#--prefix=/usr/mico32 
+
+${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=$PREFIX --enable-languages=c --target=lm32-elf --disable-libssp --disable-libgcc
+if [ "$?" != "0" ]
+then
+   end $?
+fi
+
+make 
+if [ "$?" != "0" ]
+then
+   end $?
+fi
+
 #make install
+
+end $?
+
 #=================================== EOF ======================================
