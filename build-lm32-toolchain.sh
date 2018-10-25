@@ -1,24 +1,25 @@
 #!/bin/sh
-#
-# Script to build lm32 GCC toolchain
-#
-
+###############################################################################
+##                                                                           ##
+##                  Script to build lm32 GCC toolchain                       ##
+##                                                                           ## 
+##---------------------------------------------------------------------------##
+## File:     build-lm32-toolchain.sh                                         ##
+## Author:   Ulrich Becker (u.becker@gsi.de)                                 ##
+## Company:  GSI Helmholtzzentrum fuer Schwerionenforschung GmbH             ##
+## Date:     23.10.2018                                                      ##
+## Revision:                                                                 ##
+###############################################################################
 START_TIME=$(date +%s)
 VERSION_CONFIG_FILE="./gcc_versions.conf"
 VERBOSE=true
-
-#
-#NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
-#GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
-#GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
-#BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
-#MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
-#MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
-#GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
-
-
+TARGET="lm32-elf"
+ENABLE_CPP=
 
 source $VERSION_CONFIG_FILE
+
+LANGUAGES="c"
+[ $ENABLE_CPP ] && LANGUAGES="${LANGUAGES},c++"
 
 NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
@@ -185,8 +186,6 @@ prepare_gcc_build()
 WORK_DIR=$(pwd)
 
 init_url_list
-#echo "$URL_LIST"
-#end 0
 
 DOWNLOAD_DIR="${WORK_DIR}/download"
 mkdir -p $DOWNLOAD_DIR
@@ -202,29 +201,33 @@ extract_if_not_already_done
 
 prepare_gcc_build
 
-
-BUILD_DIR="${WORK_DIR}/build"
+BUILD_DIR="${WORK_DIR}/build-${TARGET}-${GCC_VERSION}"
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-PREFIX="$HOME/.local"
+PREFIX="${HOME}/.local"
 
-#--prefix=/usr/mico32 
-
-${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=$PREFIX --enable-languages=c --target=lm32-elf --disable-libssp --disable-libgcc
+${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
+   --enable-languages=${LANGUAGES} --target=${TARGET} \
+   --disable-libssp --disable-libgcc
 if [ "$?" != "0" ]
 then
    end $?
 fi
 
-make 
+make -j
 if [ "$?" != "0" ]
 then
    end $?
 fi
 
-#make install
+make install
+if [ "$?" != "0" ]
+then
+   end $?
+fi
 
-end $?
+[ $VERBOSE ] && echo "*** Success! :-) ***"
+end 0
 
 #=================================== EOF ======================================
