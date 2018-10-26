@@ -14,7 +14,8 @@ START_TIME=$(date +%s)
 VERSION_CONFIG_FILE="./gcc_versions.conf"
 VERBOSE=true
 TARGET="lm32-elf"
-ENABLE_CPP=
+
+ENABLE_CPP=true
 MAX_CPU_CORES=4
 
 source $VERSION_CONFIG_FILE
@@ -130,7 +131,7 @@ extract_if_not_already_done()
       if [ "$?" != "0" ]
       then
          echo "ERROR: By extracting file:  \"$path_file\""
-         end $?
+         end 1
       fi
    done
 }
@@ -193,13 +194,15 @@ make_first_stage()
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
       --enable-languages=c --target=${TARGET} \
       --disable-libssp --disable-libgcc
-   [ "$?" != "0" ] && end $?
-   
+   [ "$?" != "0" ] && end 1
+
+   mv config.log  configStage1.log
+
    make -j${MAX_CPU_CORES} all-gcc
-   [ "$?" != "0" ] && end $?
+   [ "$?" != "0" ] && end 1
 
    make install-gcc
-   [ "$?" != "0" ] && end $?
+   [ "$?" != "0" ] && end 1
 }
 
 #------------------------------------------------------------------------------
@@ -207,17 +210,23 @@ make_scond_stage()
 {
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
       --enable-languages=${LANGUAGES} --target=${TARGET}
-   [ "$?" != "0" ] && end $?
-   
+   [ "$?" != "0" ] && end 1
+
+   mv config.log  configStage2.log
+
    make -j${MAX_CPU_CORES}
-   [ "$?" != "0" ] && end $?
+   [ "$?" != "0" ] && end 1
    
    make install
-   [ "$?" != "0" ] && end $?
+   [ "$?" != "0" ] && end 1
 }
 
 #================================= main =======================================
 WORK_DIR=$(pwd)
+
+PREFIX="${HOME}/.local"
+#PREFIX="${WORK_DIR}/temp"
+
 
 init_url_list
 
@@ -239,7 +248,7 @@ BUILD_DIR="${WORK_DIR}/build-${TARGET}-${GCC_VERSION}"
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-PREFIX="${HOME}/.local"
+mkdir -p $PREFIX 
 make_first_stage
 make_scond_stage
 
