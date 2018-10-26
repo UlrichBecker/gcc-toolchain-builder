@@ -15,6 +15,7 @@ VERSION_CONFIG_FILE="./gcc_versions.conf"
 VERBOSE=true
 TARGET="lm32-elf"
 ENABLE_CPP=
+MAX_CPU_CORES=4
 
 source $VERSION_CONFIG_FILE
 
@@ -46,6 +47,7 @@ seconds2timeFormat()
 #------------------------------------------------------------------------------
 end()
 {
+   [ "$1" != "0" ] && echo "Something was going wrong!... :-/" 1>&2
    echo "Elapsed time: $(seconds2timeFormat $(($(date +%s) - $START_TIME)))"
    exit $1
 }
@@ -185,6 +187,34 @@ prepare_gcc_build()
    [ -n "${NEW_LIB_VERSION}" ]  && linkList ${SOURCE_DIR}/newlib-${NEW_LIB_VERSION} "$newLibLinkList"
 }
 
+#------------------------------------------------------------------------------
+make_first_stage()
+{
+   ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
+      --enable-languages=c --target=${TARGET} \
+      --disable-libssp --disable-libgcc
+   [ "$?" != "0" ] && end $?
+   
+   make -j${MAX_CPU_CORES} all-gcc
+   [ "$?" != "0" ] && end $?
+
+   make install-gcc
+   [ "$?" != "0" ] && end $?
+}
+
+#------------------------------------------------------------------------------
+make_scond_stage()
+{
+   ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
+      --enable-languages=${LANGUAGES} --target=${TARGET}
+   [ "$?" != "0" ] && end $?
+   
+   make -j${MAX_CPU_CORES}
+   [ "$?" != "0" ] && end $?
+   
+   make install
+   [ "$?" != "0" ] && end $?
+}
 
 #================================= main =======================================
 WORK_DIR=$(pwd)
@@ -210,26 +240,8 @@ mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 PREFIX="${HOME}/.local"
-
-${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
-   --enable-languages=${LANGUAGES} --target=${TARGET} \
-   --disable-libssp --disable-libgcc
-if [ "$?" != "0" ]
-then
-   end $?
-fi
-
-make -j
-if [ "$?" != "0" ]
-then
-   end $?
-fi
-
-make install
-if [ "$?" != "0" ]
-then
-   end $?
-fi
+make_first_stage
+make_scond_stage
 
 [ $VERBOSE ] && echo "*** Success! :-) ***"
 end 0
