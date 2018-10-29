@@ -60,7 +60,7 @@ init_url_list()
 
    if [ ! -n "${GCC_VERSION}" ]
    then
-      echo "ERROR: Variable \"GCC_VERSION\" is not set in $VERSION_CONFIG_FILE"
+      echo "ERROR: Variable \"GCC_VERSION\" is not set in $VERSION_CONFIG_FILE" 1>&2
       end 1
    fi
    URL_LIST="$URL_LIST $GCC_URL"
@@ -130,7 +130,7 @@ extract_if_not_already_done()
       tar "$tarOption" "$path_file"
       if [ "$?" != "0" ]
       then
-         echo "ERROR: By extracting file:  \"$path_file\""
+         echo "ERROR: By extracting file:  \"$path_file\"" 1>&2
          end 1
       fi
    done
@@ -141,12 +141,12 @@ linkList()
 {
    if [ ! -d "${SOURCE_DIR}/gcc-${GCC_VERSION}" ]
    then
-      echo "ERROR: Directory \"${1}\" not found!"
+      echo "ERROR: Directory \"${1}\" not found!" 1>&2
       end 1
    fi
    if [ ! -d "$1" ]
    then
-      echo "ERROR: Directory \"${1}\" not found!"
+      echo "ERROR: Directory \"${1}\" not found!" 1>&2
       end 1
    fi
    for i in $2
@@ -216,7 +216,7 @@ make_scond_stage()
 
    make -j${MAX_CPU_CORES}
    [ "$?" != "0" ] && end 1
-   
+
    make install
    [ "$?" != "0" ] && end 1
 }
