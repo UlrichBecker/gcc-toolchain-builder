@@ -5,8 +5,8 @@
 ##                                                                           ## 
 ##---------------------------------------------------------------------------##
 ## File:     build-lm32-toolchain.sh                                         ##
-## Author:   Ulrich Becker (u.becker@gsi.de)                                 ##
-## Company:  GSI Helmholtzzentrum fuer Schwerionenforschung GmbH             ##
+## Author:   Ulrich Becker <u.becker@gsi.de>                                 ##
+## Company:  GSI Helmholtz Centre for Heavy Ion Research GmbH                ##
 ## Date:     23.10.2018                                                      ##
 ## Revision:                                                                 ##
 ###############################################################################
@@ -26,7 +26,7 @@ LANGUAGES="c"
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
 GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
 NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
-GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.bz2"
+GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
 BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
 MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
 MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
@@ -224,9 +224,12 @@ make_scond_stage()
 #================================= main =======================================
 WORK_DIR=$(pwd)
 
-PREFIX="${HOME}/.local"
 #PREFIX="${WORK_DIR}/temp"
 
+if [ ! -n "$PREFIX" ]
+then
+   PREFIX="${HOME}/.local"
+fi
 
 init_url_list
 
