@@ -3,3 +3,4 @@ src
 build-lm32-elf-*
 _build-*
 temp
+.directory

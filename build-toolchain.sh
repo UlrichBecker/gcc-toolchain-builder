@@ -27,6 +27,7 @@ MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
 MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
 GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
 
+AVR_LIBC_URL="http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${AVR_LIBC_VERSION}.tar.bz2"
 
 #------------------------------------------------------------------------------
 seconds2timeFormat()
@@ -61,7 +62,14 @@ init_url_list()
    fi
    URL_LIST="$URL_LIST $GCC_URL"
 
-   [ -n "${GLIBC_VERSION}" ]    && URL_LIST="$URL_LIST $GLIBC_URL"
+   case ${TARGET} in
+      "avr") 
+         [ -n "${AVR_LIBC_VERSION}" ] && URL_LIST="$URL_LIST $AVR_LIBC_URL"
+      ;;
+      *)
+         [ -n "${GLIBC_VERSION}" ]    && URL_LIST="$URL_LIST $GLIBC_URL"
+      ;;
+   esac
    [ -n "${NEW_LIB_VERSION}" ]  && URL_LIST="$URL_LIST $NEW_LIB_URL"
    [ -n "${GDB_VERSION}" ]      && URL_LIST="$URL_LIST $GDB_URL"
    [ -n "${BINUTILS_VERSION}" ] && URL_LIST="$URL_LIST $BIN_UTILS_URL"
@@ -175,7 +183,15 @@ prepare_gcc_build()
    local mpfrLinkList="mpfr"
    local gmpLinkList="gmp"
    local glibcLinkList="glibc"
-   [ -n "${GLIBC_VERSION}" ]    && linkList ${SOURCE_DIR}/glibc-${GLIBC_VERSION} "$glibcLinkList"
+   local avrlibcLinkList="avrlibc"
+   case ${TARGET} in
+      "avr") 
+         [ -n "${AVR_LIBC_VERSION}" ] && linkList ${SOURCE_DIR}/avr-libc-${AVR_LIBC_VERSION} "$avrlibcLinkList"
+      ;;
+      *)
+         [ -n "${GLIBC_VERSION}" ]    && linkList ${SOURCE_DIR}/glibc-${GLIBC_VERSION} "$glibcLinkList"
+      ;;
+   esac
    [ -n "${BINUTILS_VERSION}" ] && linkList ${SOURCE_DIR}/binutils-${BINUTILS_VERSION} "$binUtilLinkList"
    [ -n "${GDB_VERSION}" ]      && linkList ${SOURCE_DIR}/gdb-${GDB_VERSION%[a-z]} "$gdbLinkList" "."
    [ -n "${GMP_VERSION}" ]      && linkList ${SOURCE_DIR}/gmp-${GMP_VERSION} "$gmpLinkList"
