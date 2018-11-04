@@ -28,6 +28,7 @@ MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
 GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
 
 AVR_LIBC_URL="http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${AVR_LIBC_VERSION}.tar.bz2"
+AVR_DUDE_URL="http://download.savannah.gnu.org/releases/avrdude/avrdude-${AVR_DUDE_VERSION}.tar.gz"
 
 #------------------------------------------------------------------------------
 seconds2timeFormat()
@@ -65,6 +66,7 @@ init_url_list()
    case ${TARGET} in
       "avr") 
          [ -n "${AVR_LIBC_VERSION}" ] && URL_LIST="$URL_LIST $AVR_LIBC_URL"
+         [ -n "${AVR_DUDE_VERSION}" ] && URL_LIST="$URL_LIST $AVR_DUDE_URL"
       ;;
       *)
          [ -n "${GLIBC_VERSION}" ]    && URL_LIST="$URL_LIST $GLIBC_URL"
@@ -118,7 +120,7 @@ extract_if_not_already_done()
          [ $VERBOSE ] && echo "INFO: File \"$path_file\" already extrected."
          continue
       fi
-      
+
       if [ -n "$(echo $tar_file | grep ".tar.bz2")" ]
       then
          tarOption="-xjvf"
@@ -184,9 +186,11 @@ prepare_gcc_build()
    local gmpLinkList="gmp"
    local glibcLinkList="glibc"
    local avrlibcLinkList="avrlibc"
+   local avrdudeLinkList="avrdude"
    case ${TARGET} in
       "avr") 
          [ -n "${AVR_LIBC_VERSION}" ] && linkList ${SOURCE_DIR}/avr-libc-${AVR_LIBC_VERSION} "$avrlibcLinkList"
+         [ -n "${AVR_DUDE_VERSION}" ] && linkList ${SOURCE_DIR}/avrdude-${AVR_DUDE_VERSION} "$avrdudeLinkList"
       ;;
       *)
          [ -n "${GLIBC_VERSION}" ]    && linkList ${SOURCE_DIR}/glibc-${GLIBC_VERSION} "$glibcLinkList"
