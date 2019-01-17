@@ -11,7 +11,7 @@ Scipt to build a linux-toolchain for the latticeMicro32 (LM32 soft-core processo
 
 3) By default the toolchain will installed in the hidden directory<br/>
 ```${HOME}/.local```<br/>
-If yo desire the toolchain in a other directory, so you have to initialize the shell variable PREFIX.<br/>
+If you desire the toolchain in a other directory, so you have to initialize the shell variable PREFIX.<br/>
 E.g.:<br/>
 ```export PREFIX=/path/to/my/toolchain```<br/>
 Otherwise you can omit this step.
