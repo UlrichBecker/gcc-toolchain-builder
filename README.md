@@ -1,5 +1,5 @@
 # Linux lm32-toolchain
-Scipt to build a linux-toolchain for the latticeMicro32 (LM32 soft-core processor)
+Script to build a linux-toolchain for the latticeMicro32 (LM32 soft-core processor)
 
 # Obtaining a ready to use LM32-GCC toolchain in only 3 respectively 4 steps:
 
