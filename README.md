@@ -23,3 +23,7 @@ This will take about 45 minutes depending of your computer and internet connecti
 After this three respectively four steps the new toolchain is ready to use.
 
 Building a linux-toolchain for AVR Microcontrollers is in develop yet.
+
+# NOTE
+If you desire a other version of GCC or of its components, so you can change this in the file ```gcc_versions.conf```.
+But in this case it could become to compatibility problems, so you have to spend time to try the best combination of versions.
