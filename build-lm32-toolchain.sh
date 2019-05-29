@@ -14,6 +14,11 @@
 TARGET="lm32-elf"
 ENABLE_CPP=true
 
+make_third_stage()
+{
+   [ $VERBOSE ] && echo "Nothing additional work for target LM32 in third stage."
+}
+
 source build-toolchain.sh
 
 #=================================== EOF ======================================

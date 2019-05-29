@@ -281,6 +281,7 @@ cd $BUILD_DIR
 mkdir -p $PREFIX 
 make_first_stage
 make_scond_stage
+make_third_stage
 
 [ $VERBOSE ] && echo "*** Success! :-) ***"
 end 0
