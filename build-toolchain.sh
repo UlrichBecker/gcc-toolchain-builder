@@ -29,6 +29,8 @@ GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
 
 AVR_LIBC_URL="http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${AVR_LIBC_VERSION}.tar.bz2"
 AVR_DUDE_URL="http://download.savannah.gnu.org/releases/avrdude/avrdude-${AVR_DUDE_VERSION}.tar.gz"
+AVR_SIMULAVR_URL="http://download.savannah.nongnu.org/releases/simulavr/simulavr-${AVR_SIMULAVR_VERSION}.tar.gz"
+
 
 #------------------------------------------------------------------------------
 seconds2timeFormat()
@@ -65,8 +67,9 @@ init_url_list()
 
    case ${TARGET} in
       "avr") 
-         [ -n "${AVR_LIBC_VERSION}" ] && URL_LIST="$URL_LIST $AVR_LIBC_URL"
-         [ -n "${AVR_DUDE_VERSION}" ] && URL_LIST="$URL_LIST $AVR_DUDE_URL"
+         [ -n "${AVR_LIBC_VERSION}" ]     && URL_LIST="$URL_LIST $AVR_LIBC_URL"
+         [ -n "${AVR_DUDE_VERSION}" ]     && URL_LIST="$URL_LIST $AVR_DUDE_URL"
+         [ -n "${AVR_SIMULAVR_VERSION}" ] && URL_LIST="$URL_LIST $AVR_SIMULAVR_URL"
       ;;
       *)
          [ -n "${GLIBC_VERSION}" ]    && URL_LIST="$URL_LIST $GLIBC_URL"

@@ -32,6 +32,28 @@ make_avr_libc()
    cd $oldDir
 }
 
+make_simul_avr()
+{
+#TODO configure: error: 
+#    Could not locate libbfd.so/libbfd.a and/or bfd.h.
+#   Please use the --with-bfd=<path to your libbfd library>
+
+   local oldDir=$(pwd)
+   local simulAvrDir=${SOURCE_DIR}/simulavr-${AVR_SIMULAVR_VERSION}
+   cd ${simulAvrDir}
+
+   ./configure --prefix=$PREFIX
+   [ "$?" != "0" ] && end 1
+
+   make
+   [ "$?" != "0" ] && end 1
+
+   make install
+   [ "$?" != "0" ] && end 1
+
+   cd $oldDir
+}
+
 make_avr_dude()
 {
    local oldDir=$(pwd)
@@ -53,6 +75,7 @@ make_avr_dude()
 make_third_stage()
 {
    make_avr_libc
+#   make_simul_avr
    make_avr_dude
 }
 
