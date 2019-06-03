@@ -10,10 +10,8 @@
 ## Revision:                                                                 ##
 ###############################################################################
 START_TIME=$(date +%s)
-VERSION_CONFIG_FILE="./gcc_versions.conf"
-VERBOSE=true
 
-source $VERSION_CONFIG_FILE
+VERBOSE=true
 
 LANGUAGES="c"
 [ $ENABLE_CPP ] && LANGUAGES="${LANGUAGES},c++"
@@ -26,10 +24,6 @@ BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.
 MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
 MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
 GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
-
-AVR_LIBC_URL="http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${AVR_LIBC_VERSION}.tar.bz2"
-AVR_DUDE_URL="http://download.savannah.gnu.org/releases/avrdude/avrdude-${AVR_DUDE_VERSION}.tar.gz"
-AVR_SIMULAVR_URL="http://download.savannah.nongnu.org/releases/simulavr/simulavr-${AVR_SIMULAVR_VERSION}.tar.gz"
 
 
 #------------------------------------------------------------------------------
@@ -210,6 +204,7 @@ prepare_gcc_build()
 #------------------------------------------------------------------------------
 make_first_stage()
 {
+   [ $VERBOSE ] && echo "INFO: Entering first stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
       --enable-languages=c --target=${TARGET} \
       --disable-libssp --disable-libgcc
@@ -227,6 +222,7 @@ make_first_stage()
 #------------------------------------------------------------------------------
 make_scond_stage()
 {
+   [ $VERBOSE ] && echo "INFO: Entering second stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
       --enable-languages=${LANGUAGES} --target=${TARGET}
    [ "$?" != "0" ] && end 1

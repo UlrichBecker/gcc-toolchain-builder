@@ -10,9 +10,15 @@
 ## Date:     23.10.2018                                                      ##
 ## Revision:                                                                 ##
 ###############################################################################
-
 TARGET="avr"
 ENABLE_CPP=true
+
+VERSION_CONFIG_FILE="./gcc_versions.conf"
+source $VERSION_CONFIG_FILE
+
+AVR_LIBC_URL="http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${AVR_LIBC_VERSION}.tar.bz2"
+AVR_DUDE_URL="http://download.savannah.gnu.org/releases/avrdude/avrdude-${AVR_DUDE_VERSION}.tar.gz"
+AVR_SIMULAVR_URL="http://download.savannah.nongnu.org/releases/simulavr/simulavr-${AVR_SIMULAVR_VERSION}.tar.gz"
 
 make_avr_libc()
 {
@@ -74,6 +80,7 @@ make_avr_dude()
 
 make_third_stage()
 {
+   [ $VERBOSE ] && echo "INFO: Entering third stage."
    make_avr_libc
 #   make_simul_avr
    make_avr_dude

@@ -10,13 +10,15 @@
 ## Date:     23.10.2018                                                      ##
 ## Revision:                                                                 ##
 ###############################################################################
-
 TARGET="lm32-elf"
 ENABLE_CPP=true
 
+VERSION_CONFIG_FILE="./gcc_versions.conf"
+source $VERSION_CONFIG_FILE
+
 make_third_stage()
 {
-   [ $VERBOSE ] && echo "Nothing additional work for target LM32 in third stage."
+   [ $VERBOSE ] && echo "INFO: Nothing additional work for target LM32 in third stage."
 }
 
 source build-toolchain.sh
