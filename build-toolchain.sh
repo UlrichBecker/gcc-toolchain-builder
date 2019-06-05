@@ -206,7 +206,7 @@ make_first_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering first stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
-      --enable-languages=c --target=${TARGET} \
+      --enable-languages=c ${CONFIG_TARGET} \
       --disable-libssp --disable-libgcc
    [ "$?" != "0" ] && end 1
 
@@ -224,7 +224,7 @@ make_scond_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering second stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
-      --enable-languages=${LANGUAGES} --target=${TARGET}
+      --enable-languages=${LANGUAGES} ${CONFIG_TARGET}
    [ "$?" != "0" ] && end 1
 
    mv config.log  configStage2.log
@@ -257,6 +257,13 @@ then
    end 1
 fi
 
+if [ "$TARGET" == "$(uname -m)" ]
+then
+   CONFIG_TARGET=""
+else
+   CONFIG_TARGET="--target=${TARGET}"
+fi
+
 init_url_list
 
 DOWNLOAD_DIR="${WORK_DIR}/download"
@@ -278,7 +285,13 @@ mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 mkdir -p $PREFIX 
-make_first_stage
+
+if [ -n "$CONFIG_TARGET" ]
+then
+   make_first_stage
+else
+   [ $VERBOSE ] && echo "INFO: Native toolchain becomes build, omiting first stage."
+fi
 make_scond_stage
 make_third_stage
 
