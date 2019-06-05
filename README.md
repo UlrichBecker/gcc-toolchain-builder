@@ -25,9 +25,9 @@ After this three respectively four steps the new toolchain is ready to use.
 Building a linux-toolchain for AVR Microcontrollers is in develop yet.
 
 # Requirements
-+ Commandline downloader <b>"wget"</b>. (Type ```which wget``` to check wether it's installed.)
-+ Tape archiver <b>"tar"</b>. (Type ```which tar``` to check wether it's installed.)
-+ Native GCC toolchain, respectively naive C/C++ compiler. (Type ```which gcc``` to check wether it's installed.)
++ Commandline downloader <b>"wget"</b>. (Type ```which wget``` to check whether it's installed.)
++ Tape archiver <b>"tar"</b>. (Type ```which tar``` to check whether it's installed.)
++ Native GCC toolchain, respectively naive C/C++ compiler. (Type ```which gcc``` to check whether it's installed.)
 
 # NOTE
 If you desire a other version of GCC or of its components, so you can change this in the file ```gcc_versions.conf```.
