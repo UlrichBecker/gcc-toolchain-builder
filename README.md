@@ -23,7 +23,7 @@ Otherwise you can omit this step.
 ```./build-lm32-toolchain.sh``` for building a LM32 tool chain<br/>
 ```./build-avr-toolchain.sh``` for building a AVR tool chain<br/>
 ```./build-native-toolchain.sh``` for building a native tool chain<br/>
-This will take about 45 til 90 minutes depending of your computer, internet connection and chosen tool chain.
+This will take about 45 to 90 minutes depending of your computer, internet connection and chosen tool chain.
 
 After this three respectively four steps the new toolchain is ready to use.
 
