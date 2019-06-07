@@ -25,13 +25,13 @@ make_avr_libc()
    local oldDir=$(pwd)
    local avrLibCdir=${SOURCE_DIR}/avr-libc-${AVR_LIBC_VERSION}
    cd ${avrLibCdir}
-   
+
    ./configure --prefix=$PREFIX --build=$(./config.guess) --host=$TARGET
    [ "$?" != "0" ] && end 1
 
    make
    [ "$?" != "0" ] && end 1
-   
+
    make install
    [ "$?" != "0" ] && end 1
 
@@ -65,13 +65,13 @@ make_avr_dude()
    local oldDir=$(pwd)
    local avrDudeDir=${SOURCE_DIR}/avrdude-${AVR_DUDE_VERSION}
    cd ${avrDudeDir}
-   
+
    ./configure --prefix=$PREFIX
    [ "$?" != "0" ] && end 1
 
    make 
    [ "$?" != "0" ] && end 1
-   
+
    make install
    [ "$?" != "0" ] && end 1
 
