@@ -1,7 +1,7 @@
 # Linux GCC cross- and/or native- tool-chain for C and C++ (GCC 9.1.0)
 Scripts to build a linux-toolchain for:
 + the latticeMicro32 (LM32 soft-core processor)
-+ the Atmel Atmega Micro-controller series (AVR)
++ the Atmel Atmega Micro-controller series (AVR) e.g. for Arduino
 + the native GCC compiler collection
 
 # Obtaining a ready to use cross or native tool chain in only 3 respectively 4 steps:
