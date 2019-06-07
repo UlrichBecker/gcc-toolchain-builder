@@ -42,6 +42,8 @@ If you have installed the tool chain not in the standard directory e.g. ```/usr/
 and when you test the new tool chain so just actualize the environment variable ```PATH```:<br/>
 ```export PATH=/path/to/my/toolchain/bin:$PATH```<br/>
 If you'll test a native tool chain, so you also complete the environment variable ```LD_LIBRARY_PATH```<br/>
-```export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/my/toolchain/lib64:/path/to/my/toolchain/lib```<br/>
-before you run a application compiled by these tool chain. 
+```export LD_LIBRARY_PATH=/path/to/my/toolchain/lib64:/path/to/my/toolchain/lib:$LD_LIBRARY_PATH```<br/>
+before you run a application compiled by these tool chain.</br></br>
+
+To reduce the likely of trouble building a cross tool chain I recommend to to build a native tool chain at first</br>(with ```build-native-toolchain.sh```) and build your desired cross tool chain by these native tool chain. 
 
