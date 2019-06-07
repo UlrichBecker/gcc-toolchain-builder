@@ -45,5 +45,5 @@ If you'll test a native tool chain, so you also complete the environment variabl
 ```export LD_LIBRARY_PATH=/path/to/my/toolchain/lib64:/path/to/my/toolchain/lib:$LD_LIBRARY_PATH```<br/>
 before you run a application compiled by these tool chain.</br></br>
 
-To reduce the likely of trouble building a cross tool chain I recommend to to build a native tool chain at first</br>(with ```build-native-toolchain.sh```) and build your desired cross tool chain by these native tool chain. 
+To reduce the likely of trouble building a cross tool chain I recommend to build a native tool chain at first</br>(with ```build-native-toolchain.sh```) and build your desired cross tool chain by these native tool chain. 
 
