@@ -26,13 +26,13 @@ make_avr_libc()
    local avrLibCdir=${SOURCE_DIR}/avr-libc-${AVR_LIBC_VERSION}
    cd ${avrLibCdir}
 
-   ./configure --prefix=$PREFIX --build=$(./config.guess) --host=$TARGET
+   ./configure --prefix=$PREFIX --build=$(./config.guess) --host=$TARGET 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make
+   make 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make install
+   make install 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
    cd $oldDir
@@ -48,13 +48,13 @@ make_simul_avr()
    local simulAvrDir=${SOURCE_DIR}/simulavr-${AVR_SIMULAVR_VERSION}
    cd ${simulAvrDir}
 
-   ./configure --prefix=$PREFIX
+   ./configure --prefix=$PREFIX 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make
+   make 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make install
+   make install 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
    cd $oldDir
@@ -66,13 +66,13 @@ make_avr_dude()
    local avrDudeDir=${SOURCE_DIR}/avrdude-${AVR_DUDE_VERSION}
    cd ${avrDudeDir}
 
-   ./configure --prefix=$PREFIX
+   ./configure --prefix=$PREFIX 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make 
-   [ "$?" != "0" ] && end 1
+   make 2>${ERROR_LOG_FILE}
+   [ "$?" != "0" ] && end 1 
 
-   make install
+   make install 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
    cd $oldDir

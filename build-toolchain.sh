@@ -42,7 +42,11 @@ seconds2timeFormat()
 #------------------------------------------------------------------------------
 end()
 {
-   [ "$1" != "0" ] && echo "Something was going wrong!... :-/" 1>&2
+   if [ "$1" != "0" ]
+   then
+      echo "Something was going wrong!... :-/" 1>&2
+      echo "Look in the file: $ERROR_LOG_FILE" 1>&2
+   fi
    echo "Elapsed time: $(seconds2timeFormat $(($(date +%s) - $START_TIME)))"
    exit $1
 }
@@ -207,15 +211,15 @@ make_first_stage()
    [ $VERBOSE ] && echo "INFO: Entering first stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
       --enable-languages=c ${CONFIG_TARGET} \
-      --disable-libssp --disable-libgcc
+      --disable-libssp --disable-libgcc 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
    mv config.log  configStage1.log
 
-   make -j${MAX_CPU_CORES} all-gcc
+   make -j${MAX_CPU_CORES} all-gcc 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make install-gcc
+   make install-gcc 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 }
 
@@ -224,15 +228,15 @@ make_scond_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering second stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
-      --enable-languages=${LANGUAGES} ${CONFIG_TARGET}
+      --enable-languages=${LANGUAGES} ${CONFIG_TARGET} 2>$ERROR_LOG_FILE
    [ "$?" != "0" ] && end 1
 
    mv config.log  configStage2.log
 
-   make -j${MAX_CPU_CORES}
+   make -j${MAX_CPU_CORES} 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make install
+   make install 2>$ERROR_LOG_FILE
    [ "$?" != "0" ] && end 1
 }
 
@@ -283,6 +287,8 @@ prepare_gcc_build
 BUILD_DIR="${WORK_DIR}/_build-${TARGET}-${GCC_VERSION}"
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
+
+ERROR_LOG_FILE=${BUILD_DIR}/error.log
 
 mkdir -p $PREFIX 
 
