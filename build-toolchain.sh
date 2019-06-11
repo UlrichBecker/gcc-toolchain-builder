@@ -219,8 +219,8 @@ make_first_stage()
    make -j${MAX_CPU_CORES} all-gcc 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make install-gcc 2>${ERROR_LOG_FILE}
-   [ "$?" != "0" ] && end 1
+ #  make install-gcc 2>${ERROR_LOG_FILE}
+ #  [ "$?" != "0" ] && end 1
 }
 
 #------------------------------------------------------------------------------
