@@ -211,7 +211,8 @@ make_first_stage()
    [ $VERBOSE ] && echo "INFO: Entering first stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
       --enable-languages=c ${CONFIG_TARGET} \
-      --disable-libssp --disable-libgcc 2>${ERROR_LOG_FILE}
+      --disable-libssp --disable-libgcc ${ADDITIONAL_FIRST_STAGE_CONFIG_ARGS} \
+      2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
    mv config.log  configStage1.log
@@ -224,11 +225,12 @@ make_first_stage()
 }
 
 #------------------------------------------------------------------------------
-make_scond_stage()
+make_seond_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering second stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
-      --enable-languages=${LANGUAGES} ${CONFIG_TARGET} 2>$ERROR_LOG_FILE
+      --enable-languages=${LANGUAGES} ${CONFIG_TARGET} \
+      ${ADDITIONAL_SECOND_STAGE_CONFIG_ARGS} 2>$ERROR_LOG_FILE
    [ "$?" != "0" ] && end 1
 
    mv config.log  configStage2.log
@@ -298,7 +300,7 @@ then
 else
    [ $VERBOSE ] && echo "INFO: Native toolchain becomes build, omiting first stage."
 fi
-make_scond_stage
+make_seond_stage
 make_third_stage
 
 [ $VERBOSE ] && echo "*** Success! :-) ***"
