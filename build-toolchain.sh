@@ -225,7 +225,7 @@ make_first_stage()
 }
 
 #------------------------------------------------------------------------------
-make_seond_stage()
+make_second_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering second stage."
    ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
@@ -300,7 +300,7 @@ then
 else
    [ $VERBOSE ] && echo "INFO: Native toolchain becomes build, omiting first stage."
 fi
-make_seond_stage
+make_second_stage
 make_third_stage
 
 [ $VERBOSE ] && echo "*** Success! :-) ***"
