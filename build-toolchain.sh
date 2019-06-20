@@ -18,6 +18,7 @@ LANGUAGES="c"
 
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
 GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
+UCLIBC_URL="https://downloads.uclibc-ng.org/releases/${UCLIBC_VERSION}/uClibc-ng-${UCLIBC_VERSION}.tar.xz"
 NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
 GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
 BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
@@ -220,8 +221,8 @@ make_first_stage()
    make -j${MAX_CPU_CORES} all-gcc 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
- #  make install-gcc 2>${ERROR_LOG_FILE}
- #  [ "$?" != "0" ] && end 1
+#   make install-gcc 2>${ERROR_LOG_FILE}
+#   [ "$?" != "0" ] && end 1
 }
 
 #------------------------------------------------------------------------------
