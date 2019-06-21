@@ -210,7 +210,7 @@ prepare_gcc_build()
 make_first_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering first stage."
-   ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
+   ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure ${CONFIGURE_ARGS} \
       --enable-languages=c ${CONFIG_TARGET} \
       --disable-libssp --disable-libgcc ${ADDITIONAL_FIRST_STAGE_CONFIG_ARGS} \
       2>${ERROR_LOG_FILE}
@@ -221,17 +221,17 @@ make_first_stage()
    make -j${MAX_CPU_CORES} all-gcc 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-#   make install-gcc 2>${ERROR_LOG_FILE}
-#   [ "$?" != "0" ] && end 1
+   make install-gcc 2>${ERROR_LOG_FILE}
+   [ "$?" != "0" ] && end 1
 }
 
 #------------------------------------------------------------------------------
 make_second_stage()
 {
    [ $VERBOSE ] && echo "INFO: Entering second stage."
-   ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure  --prefix=${PREFIX} \
+   ${SOURCE_DIR}/gcc-${GCC_VERSION}/configure ${CONFIGURE_ARGS} \
       --enable-languages=${LANGUAGES} ${CONFIG_TARGET} \
-      ${ADDITIONAL_SECOND_STAGE_CONFIG_ARGS} 2>$ERROR_LOG_FILE
+      ${ADDITIONAL_SECOND_STAGE_CONFIG_ARGS} 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
    mv config.log  configStage2.log
@@ -239,7 +239,7 @@ make_second_stage()
    make -j${MAX_CPU_CORES} 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 
-   make install 2>$ERROR_LOG_FILE
+   make install 2>${ERROR_LOG_FILE}
    [ "$?" != "0" ] && end 1
 }
 
@@ -247,6 +247,8 @@ make_second_stage()
 WORK_DIR=$(pwd)
 
 #PREFIX="${WORK_DIR}/temp"
+
+
 
 if [ ! -n "$PREFIX" ]
 then
@@ -270,6 +272,8 @@ then
 else
    CONFIG_TARGET="--target=${TARGET}"
 fi
+
+CONFIGURE_ARGS="--prefix=${PREFIX} --disable-werror"
 
 init_url_list
 
