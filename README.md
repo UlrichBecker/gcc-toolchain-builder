@@ -37,6 +37,8 @@ Building a linux-toolchain for AVR Microcontrollers is in develop yet.
 # NOTE
 If you desire a other version of GCC or of its components, so you can change this in the file ```gcc_versions.conf```.
 But in this case it could become to compatibility problems, so you have to spend time to try the best combination of versions.<br/><br/>
+If you have got trouble may be the following link could help you: https://wiki.osdev.org/GCC_Cross-Compiler<br/><br/>
+If you'll rebuild a tool-chain, so you have to delete the concerning build directory:</br> ```_build-<toolchain name>-<GCC-version number>``` bevore.
 
 If you have installed the tool chain not in the standard directory e.g. ```/usr/bin/```,
 and when you test the new tool chain so just actualize the environment variable ```PATH```:<br/>
