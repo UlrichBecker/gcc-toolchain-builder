@@ -27,7 +27,7 @@ This will take about 45 minutes to more than two hours depending of your compute
 
 After this three respectively four steps the new toolchain is ready to use.
 
-Building a linux-toolchain for AVR Microcontrollers is in develop yet.
+Building a linux-toolchain for Linux-ARM devices is in develop yet.
 
 # Requirements
 + Commandline downloader <b>"wget"</b>. (Type ```which wget``` to check whether it's installed.)
@@ -36,7 +36,8 @@ Building a linux-toolchain for AVR Microcontrollers is in develop yet.
 
 # NOTE
 If you desire a other version of GCC or of its components, so you can change this in the file ```gcc_versions.conf```.
-But in this case it could become to compatibility problems, so you have to spend time to try the best combination of versions.<br/><br/>
+But in this case it could become to compatibility problems, so you have to spend time to try the best combination of versions.
+<br/>Following link could help you finding the combination of correct versions: https://wiki.osdev.org/Building_GCC<br/>
 If you have got trouble may be the following link could help you: https://wiki.osdev.org/GCC_Cross-Compiler<br/><br/>
 If you'll rebuild a tool-chain, so you have to delete the concerning build directory:</br> ```_build-<toolchain name>-<GCC-version number>``` bevore.
 
