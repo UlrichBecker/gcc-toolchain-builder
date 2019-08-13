@@ -1,4 +1,4 @@
-# Linux GCC cross- and/or native- tool-chain for C and C++ (GCC 9.1.0)
+# Linux GCC cross- and/or native- tool-chain for C and C++ (GCC 9.2.0)
 Scripts to build a linux-toolchain for:
 + the latticeMicro32 (LM32 soft-core processor)
 + the Atmel Atmega Micro-controller series (AVR) e.g. for Arduino
@@ -44,8 +44,8 @@ If you'll rebuild a tool-chain, so you have to delete the concerning build direc
 If you have installed the tool chain not in the standard directory e.g. ```/usr/bin/```,
 and when you test the new tool chain so just actualize the environment variable ```PATH```:<br/>
 ```export PATH=/path/to/my/toolchain/bin:$PATH```<br/>
-If you'll test a native tool chain, so you also complete the environment variable ```LD_LIBRARY_PATH```<br/>
-```export LD_LIBRARY_PATH=/path/to/my/toolchain/lib64:/path/to/my/toolchain/lib:$LD_LIBRARY_PATH```<br/>
+If you'ldbgl test a native tool chain, so you also complete the environment variable ```LD_LIBRARY_PATH```<br/>
+```lib64/path/to/my/toolchain/lib64:/path/to/my/toolchain/lib:$LD_LIBRARY_PATH```<br/>
 before you run a application compiled by these tool chain.</br></br>
 
 To reduce the likely of trouble building a cross tool chain I recommend to build a native tool chain at first</br>(with ```build-native-toolchain.sh```) and build your desired cross tool chain by these native tool chain. 
