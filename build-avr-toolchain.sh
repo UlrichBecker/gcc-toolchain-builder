@@ -13,8 +13,11 @@
 TARGET="avr"
 ENABLE_CPP=true
 
-VERSION_CONFIG_FILE="./gcc_versions.conf"
-source $VERSION_CONFIG_FILE
+if [ ! -n "$VERSION_CONFIG_FILE" ]
+then
+   VERSION_CONFIG_FILE="./gcc_versions.conf"
+   source $VERSION_CONFIG_FILE
+fi
 
 AVR_LIBC_URL="http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${AVR_LIBC_VERSION}.tar.bz2"
 AVR_DUDE_URL="http://download.savannah.gnu.org/releases/avrdude/avrdude-${AVR_DUDE_VERSION}.tar.gz"

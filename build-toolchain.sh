@@ -11,6 +11,12 @@
 ###############################################################################
 START_TIME=$(date +%s)
 
+if [ ! -n "$VERSION_CONFIG_FILE" ]
+then
+   VERSION_CONFIG_FILE="./gcc_versions.conf"
+   source $VERSION_CONFIG_FILE
+fi
+
 VERBOSE=true
 
 LANGUAGES="c"

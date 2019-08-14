@@ -1,22 +1,21 @@
 #/usr/bin/sh
 ###############################################################################
 ##                                                                           ##
-##       Script to build GCC toolchain for a native target (e.g. x86)        ##
+##          Script to build GCC toolchain for Renesas RX processor           ##
 ##                                                                           ## 
 ##---------------------------------------------------------------------------##
-## File:     build-lm32-toolchain.sh                                         ##
+## File:     build-renesas-toolchain.sh                                      ##
 ## Author:   Ulrich Becker <u.becker@gsi.de>                                 ##
 ## Company:  GSI Helmholtz Centre for Heavy Ion Research GmbH                ##
-## Date:     04.06.2019                                                      ##
+## Date:     13.08.2019                                                      ##
 ## Revision:                                                                 ##
 ###############################################################################
-TARGET=$(uname -m)
+TARGET="rx-elf"
 ENABLE_CPP=true
-
 
 make_third_stage()
 {
-   [ $VERBOSE ] && echo "INFO: Nothing additional work for target $(uname -m) in third stage."
+   [ $VERBOSE ] && echo "INFO: Nothing additional work for target RENESAS RX in third stage."
 }
 
 source build-toolchain.sh
