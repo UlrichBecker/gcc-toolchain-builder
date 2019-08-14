@@ -16,6 +16,9 @@ ENABLE_CPP=true
 if [ ! -n "$VERSION_CONFIG_FILE" ]
 then
    VERSION_CONFIG_FILE="./gcc_versions.conf"
+fi
+if [ ! -n "$GCC_VERSION" ]
+then
    source $VERSION_CONFIG_FILE
 fi
 
