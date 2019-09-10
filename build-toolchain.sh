@@ -23,7 +23,10 @@ fi
 VERBOSE=true
 
 LANGUAGES="c"
-[ $ENABLE_CPP ] && LANGUAGES="${LANGUAGES},c++"
+[ $ENABLE_CPP ]     && LANGUAGES="${LANGUAGES},c++"
+[ $ENABLE_ADA ]     && LANGUAGES="${LANGUAGES},ada"
+[ $ENABLE_FORTRAN ] && LANGUAGES="${LANGUAGES},fortran"
+[ $ENABLE_D ]       && LANGUAGES="${LANGUAGES},d"
 
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
 GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"

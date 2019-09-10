@@ -11,8 +11,11 @@
 ## Revision:                                                                 ##
 ###############################################################################
 TARGET=$(uname -m)
-ENABLE_CPP=true
 
+ENABLE_CPP=true
+ENABLE_ADA=true
+ENABLE_FORTRAN=true
+ENABLE_D=true
 
 make_third_stage()
 {
