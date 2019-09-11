@@ -31,7 +31,8 @@ LANGUAGES="c"
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
 GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
 UCLIBC_URL="https://downloads.uclibc-ng.org/releases/${UCLIBC_VERSION}/uClibc-ng-${UCLIBC_VERSION}.tar.xz"
-NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
+#NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
+NEW_LIB_URL="ftp://sourceware.org/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
 GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
 BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
 MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
@@ -304,7 +305,12 @@ extract_if_not_already_done
 prepare_gcc_build
 
 BUILD_DIR="${WORK_DIR}/_build-${TARGET}-${GCC_VERSION}"
-mkdir -p $BUILD_DIR
+if [ -d "$BUILD_DIR" ]
+then
+   [ $VERBOSE ] && echo "INFO: Deleting old existing build directory this may take a while: $BUILD_DIR"
+   rm -rfv --preserve-root $BUILD_DIR
+fi
+mkdir $BUILD_DIR
 cd $BUILD_DIR
 
 ERROR_LOG_FILE=${BUILD_DIR}/error.log
