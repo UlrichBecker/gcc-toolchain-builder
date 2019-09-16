@@ -23,7 +23,7 @@ Otherwise you can omit this step.
 ```./build-lm32-toolchain.sh``` for building a LM32 tool chain<br/>
 ```./build-avr-toolchain.sh``` for building a AVR tool chain<br/>
 ```./build-native-toolchain.sh``` for building a native tool chain<br/>
-This will take about 45 minutes to more than two hours depending of your computer, internet connection and chosen tool chain.
+This will take about 45 minutes to more than three hours depending of your computer, internet connection, chosen tool chain and chosen languages.
 
 After this three respectively four steps the new toolchain is ready to use.
 
@@ -39,7 +39,6 @@ If you desire a other version of GCC or of its components, so you can change thi
 But in this case it could become to compatibility problems, so you have to spend time to try the best combination of versions.
 <br/>Following link could help you finding the combination of correct versions: https://wiki.osdev.org/Building_GCC<br/>
 If you have got trouble may be the following link could help you: https://wiki.osdev.org/GCC_Cross-Compiler<br/><br/>
-If you'll rebuild a tool-chain, so you have to delete the concerning build directory:</br> ```_build-<toolchain name>-<GCC-version number>``` bevore.
 
 If you have installed the tool chain not in the standard directory e.g. ```/usr/bin/```,
 and when you test the new tool chain so just actualize the environment variable ```PATH```:<br/>
