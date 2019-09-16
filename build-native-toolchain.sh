@@ -16,6 +16,11 @@ ENABLE_CPP=true
 ENABLE_ADA=true
 ENABLE_FORTRAN=true
 ENABLE_D=true
+ENABLE_OBJ_C=true
+ENABLE_OBJ_CPP=true
+ENANLE_GO=true
+ENABLE_BRIG=true
+
 
 make_third_stage()
 {
