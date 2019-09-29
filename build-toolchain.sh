@@ -11,6 +11,8 @@
 ###############################################################################
 START_TIME=$(date +%s)
 
+VERBOSE=true
+
 if [ ! -n "$VERSION_CONFIG_FILE" ]
 then
    VERSION_CONFIG_FILE="./gcc_versions.conf"
@@ -20,7 +22,10 @@ then
    source $VERSION_CONFIG_FILE
 fi
 
-VERBOSE=true
+if [ ! -n "$PKG_VERSION" ]
+then
+   PKG_VERSION=GSI
+fi
 
 LANGUAGES="c"
 [ $ENABLE_CPP ]     && LANGUAGES="${LANGUAGES},c++"
@@ -43,6 +48,13 @@ MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
 MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
 GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
 
+if [ -n "$PKG_VERSION" ]
+then
+   ADDITIONAL_CONFIG_ARGS="$ADDITIONAL_CONFIG_ARGS --with-pkgversion=$PKG_VERSION"
+fi
+
+ADDITIONAL_FIRST_STAGE_CONFIG_ARGS="$ADDITIONAL_FIRST_STAGE_CONFIG_ARGS $ADDITIONAL_CONFIG_ARGS"
+ADDITIONAL_SECOND_STAGE_CONFIG_ARGS="$ADDITIONAL_SECOND_STAGE_CONFIG_ARGS $ADDITIONAL_CONFIG_ARGS"
 
 #------------------------------------------------------------------------------
 seconds2timeFormat()
