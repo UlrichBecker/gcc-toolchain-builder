@@ -20,7 +20,7 @@ ENABLE_OBJ_C=true
 ENABLE_OBJ_CPP=true
 ENANLE_GO=true
 ENABLE_BRIG=true
-
+# ENABLE_JAVA=true
 
 make_third_stage()
 {

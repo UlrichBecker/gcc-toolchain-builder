@@ -36,6 +36,7 @@ LANGUAGES="c"
 [ $ENABLE_OBJ_CPP ] && LANGUAGES="${LANGUAGES},obj-c++"
 [ $ENANLE_GO ]      && LANGUAGES="${LANGUAGES},go"
 [ $ENABLE_BRIG ]    && LANGUAGES="${LANGUAGES},brig"
+[ $ENABLE_JAVA ]    && LANGUAGES="${LANGUAGES},java"
 
 GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
 GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
