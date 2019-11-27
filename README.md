@@ -2,6 +2,7 @@
 Scripts to build a linux-toolchain for:
 + the latticeMicro32 (LM32 soft-core processor), languages: C, C++
 + the Atmel Atmega Micro-controller series (AVR) e.g. for Arduino, languages: C, C++
++ the Motorola 68000 family (m68k), languages: C, C++
 + the native GCC compiler collection, languages: C, C++, ADA, Fortran, D, GO
 
 # Obtaining a ready to use cross or native tool chain in only 3 respectively 4 steps:
@@ -20,9 +21,10 @@ E.g.:<br/>
 Otherwise you can omit this step.
 
 4) Invoke the shell-script for your desired tool-chain:<br/>
-```./build-lm32-toolchain.sh``` for building a LM32 tool chain<br/>
-```./build-avr-toolchain.sh``` for building a AVR tool chain<br/>
-```./build-native-toolchain.sh``` for building a native tool chain<br/>
+```./build-lm32-toolchain.sh``` for building a LM32 tool-chain<br/>
+```./build-avr-toolchain.sh``` for building a AVR tool-chain<br/>
+```./build-m68k-toolchain.sh``` for building a Motorola 68000 tool-chain<br/>
+```./build-native-toolchain.sh``` for building a native tool-chain<br/>
 This will take about 45 minutes to more than three hours depending of your computer, internet connection, chosen tool chain and chosen languages.
 
 After this three respectively four steps the new toolchain is ready to use.
