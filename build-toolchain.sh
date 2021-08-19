@@ -55,11 +55,13 @@ then
    ADDITIONAL_CONFIG_ARGS="$ADDITIONAL_CONFIG_ARGS --with-pkgversion=$PKG_VERSION"
 fi
 
+ADDITIONAL_CONFIG_ARGS="$ADDITIONAL_CONFIG_ARGS --disable-assembly"
 
 ADDITIONAL_FIRST_STAGE_CONFIG_ARGS="$ADDITIONAL_FIRST_STAGE_CONFIG_ARGS $ADDITIONAL_CONFIG_ARGS"
 ADDITIONAL_SECOND_STAGE_CONFIG_ARGS="$ADDITIONAL_SECOND_STAGE_CONFIG_ARGS $ADDITIONAL_CONFIG_ARGS"
 ADDITIONAL_SECOND_STAGE_CONFIG_ARGS="$ADDITIONAL_SECOND_STAGE_CONFIG_ARGS --disable-source-highlight"
 
+# ADDITIONAL_SECOND_STAGE_CONFIG_ARGS="$ADDITIONAL_SECOND_STAGE_CONFIG_ARGS --disable-gdb"
 #------------------------------------------------------------------------------
 seconds2timeFormat()
 {
@@ -215,7 +217,8 @@ prepare_gcc_build()
 {
    local binUtilLinkList="bfd binutils gas gold gprof opcodes ld"
    local newLibLinkList="newlib libgloss"
-   local gdbLinkList="gdb"
+  # local gdbLinkList="gdb gnulib gdbsupport sim"
+   local gdbLinkList="gdb gnulib gdbsupport"
    local mpcLinkList="mpc"
    local mpfrLinkList="mpfr"
    local gmpLinkList="gmp"
@@ -281,7 +284,8 @@ WORK_DIR=$(pwd)
 
 #PREFIX="${WORK_DIR}/temp"
 
-
+export LC_ALL=C
+ulimit -s 32768
 
 if [ ! -n "$PREFIX" ]
 then
@@ -323,6 +327,8 @@ cd $SOURCE_DIR
 extract_if_not_already_done
 
 prepare_gcc_build
+
+#exit 0
 
 BUILD_DIR="${WORK_DIR}/_build-${TARGET}-${GCC_VERSION}"
 if [ -d "$BUILD_DIR" ]
