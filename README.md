@@ -1,4 +1,4 @@
-# Linux GCC 10.3.0 cross- and/or native- tool-chain for C and C++ (ADA, Fortran D and GO in native version only)
+# Linux GCC 13.1.0 cross- and/or native- tool-chain for C and C++ (ADA, Fortran D and GO in native version only)
 Scripts to build a linux-toolchain for:
 + the latticeMicro32 (LM32 soft-core processor), languages: C, C++
 + the Atmel Atmega Micro-controller series (AVR) e.g. for Arduino, languages: C, C++
