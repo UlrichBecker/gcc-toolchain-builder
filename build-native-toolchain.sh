@@ -15,17 +15,19 @@ TARGET=$(uname -m)
 ENABLE_CPP=true
 ENABLE_ADA=true
 ENABLE_FORTRAN=true
-ENABLE_D=true
+# ENABLE_D=true
 ENABLE_OBJ_C=true
 ENABLE_OBJ_CPP=true
 ENANLE_GO=true
-ENABLE_BRIG=true
+# ENABLE_BRIG=true
 # ENABLE_JAVA=true
 
 make_third_stage()
 {
    [ $VERBOSE ] && echo "INFO: Nothing additional work for target $(uname -m) in third stage."
 }
+
+ADDITIONAL_CONFIG_ARGS="$ADDITIONAL_CONFIG_ARGS --disable-multilib"
 
 source build-toolchain.sh
 
