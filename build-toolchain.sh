@@ -38,15 +38,31 @@ LANGUAGES="c"
 [ $ENABLE_BRIG ]    && LANGUAGES="${LANGUAGES},brig"
 [ $ENABLE_JAVA ]    && LANGUAGES="${LANGUAGES},java"
 
-GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
-GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
+#GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+# Mirror GWDG in Göttingen
+GCC_URL="https://ftp.gwdg.de/pub/misc/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+
+#GLIBC_URL="https://ftp.gnu.org/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
+# Mirror RWTH Aachen
+GLIBC_URL="https://ftp.halifax.rwth-aachen.de/gnu/glibc/glibc-${GLIBC_VERSION}.tar.gz"
+
 UCLIBC_URL="https://downloads.uclibc-ng.org/releases/${UCLIBC_VERSION}/uClibc-ng-${UCLIBC_VERSION}.tar.xz"
 #NEW_LIB_URL="ftp://sources.redhat.com/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
 #NEW_LIB_URL="ftp://sourceware.org/pub/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
 NEW_LIB_URL="https://sourceware.org/ftp/newlib/newlib-${NEW_LIB_VERSION}.tar.gz"
-GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
-BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
-MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
+
+#GDB_URL="http://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
+# Mirror RWTH Aachen
+GDB_URL="https://ftp.halifax.rwth-aachen.de/gnu/gdb/gdb-${GDB_VERSION}.tar.gz"
+
+#BIN_UTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
+# Mirror GWDG in Göttingen
+BIN_UTILS_URL="https://ftp.gwdg.de/pub/gnu/ftp/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2"
+
+#MPC_URL="https://ftp.gnu.org/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
+# Mirror GWDG in Göttingen
+MPC_URL="https://ftp.gwdg.de/pub/gnu/ftp/gnu/mpc/mpc-${MPC_VERSION}.tar.gz"
+
 MPFR_URL="http://www.mpfr.org/mpfr-${MPFR_VERSION}/mpfr-${MPFR_VERSION}.tar.bz2"
 #GMP_URL="ftp://ftp.gmplib.org/pub/gmp-${GMP_VERSION}/gmp-${GMP_VERSION}.tar.bz2"
 GMP_URL="https://gmplib.org/download/gmp/gmp-${GMP_VERSION}.tar.bz2"
